@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--********** Copyright 2020 Roku Corp.  All Rights Reserved. **********-->
+
+<component name="AccountButton" extends="Group">
+    <script type="text/brightscript" uri="AccountButton.brs" />
+    <interface>
+        <field id="resetGetVideoWallsTask" type="boolean" value="false" alwaysNotify="true" />
+        <field id="error" type="boolean" value="false" alwaysNotify="true" />
+    </interface>
+    <children>  
+        <ButtonGroup>
+            <Button
+                id = "MyAccountButton"
+                showFocusFootprint="true"
+                iconUri = ""
+                focusedIconUri = ""
+                text="Rhombus API Key"
+            />
+        </ButtonGroup>
+            
+    </children>
+</component>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component name="VideoPlayer" extends="Group">
+    <script type="text/brightscript" uri="VideoPlayer.brs" />
+    <interface>
+        <field id="showVideo" type="boolean" value="false" alwaysNotify="true" />
+        <field id="content" type = "node" />
+        <field id="myText" type = "string" onChange = "showTestContent" />
+        <function name="showVideoContent" />
+    </interface>
+    <children>
+            <Video id = "MyVideo" />
+    </children>
+</component>

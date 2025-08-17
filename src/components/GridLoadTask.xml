@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "utf-8" ?>
+
+<!--********** Copyright 2016 Roku Corp.  All Rights Reserved. **********-->
+
+<component name = "ContentReader" extends = "Task" >
+  <script type = "text/brightscript" uri="GridLoadTask.brs" />
+  <interface>
+    <field id = "content" type = "node" />
+    <field id = "error" type = "boolean" alwaysNotify = "true" />
+    <field id = "zeroDevices" type = "boolean" alwaysNotify = "true" value="false"/>
+    <field id = "incompleteLoad" type = "boolean" alwaysNotify = "true" value="false"/>
+    <field id = "isRunning" type = "boolean" alwaysNotify = "true" value="false"/>
+  </interface>
+</component>

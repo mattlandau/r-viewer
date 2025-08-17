@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--********** Copyright 2020 Roku Corp.  All Rights Reserved. **********-->
+
+<component name="VideoWallList" extends="Group">
+    <script type="text/brightscript" uri="VideoWallList.brs" />
+    <interface>
+        <field id="id" type="node" />
+    </interface>
+    <children>
+            <LabelList
+            id = "MyList"
+            translation = "[160,92]"
+            itemSize = "[440,48]" 
+            vertFocusAnimationStyle = "floatingFocus"
+            numRows = "19"
+            >
+            <ContentNode id = "MyVideoWallList" role = "content" />
+        </LabelList>
+    </children>
+</component>

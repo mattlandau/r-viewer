@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="Timestamp" extends="Label">
+  <interface>
+    <!-- Input: Unix timestamp in seconds -->
+    <field id="timestamp" type="int" alias="updateTimestamp" alwaysNotify="true" />
+    
+    <!-- Optional: Format string (default: "MM/dd/yyyy hh:mm a") -->
+    <field id="format" type="string" value="MM/dd/yyyy hh:mm a" alwaysNotify="true" />
+    
+    <!-- Optional: Timezone (default: device local time) -->
+    <field id="useUTC" type="bool" value="false" alwaysNotify="true" />
+    <field id="fireUpdate" type="bool" value="false" alwaysNotify="true" onChange="updateTimestamp" />
+  </interface>
+  
+  <script type="text/brightscript" uri="Timestamp.brs" />
+</component>

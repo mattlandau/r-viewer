@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!--********** Copyright 2016 Roku Corp.  All Rights Reserved. **********-->
+
+<component name = "GetVideoWallsTask" extends="Task" >
+  <script type = "text/brightscript" uri="GetVideoWallsTask.brs"/>
+    <interface>
+      <field id="content" type="string" alwaysNotify="true" />
+      <field id="error" type="boolean" alwaysNotify="true" />
+      <field id="requestTopNode" type="boolean" alwaysNotify="true" value="false"/>
+      <field id="topNode" type="node" />
+    </interface>
+</component>

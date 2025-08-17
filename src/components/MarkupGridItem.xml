@@ -1,0 +1,33 @@
+<?xml version = "1.0" encoding = "utf-8" ?>
+
+<!--********** Copyright 2016 Roku Corp.  All Rights Reserved. **********-->
+
+<component name = "MarkupGridItem" extends = "Group" >
+ 
+  <interface> 
+    <field id = "itemContent" type = "node" onChange = "showcontent"/>
+    <field id = "focusPercent" type = "float" onChange = "showfocus"/>
+    
+  </interface>
+ 
+  <script type = "text/brightscript" uri="MarkupGridItem.brs" />
+
+  <children >
+
+    <Poster 
+      id = "itemPoster" 
+      translation = "[ 10, 10 ]" 
+      width = "512" 
+      height = "288" 
+      scaleRotateCenter = "[ 256.0, 144.0 ]" >
+    </Poster>
+    <Label
+          id = "itemLabel"
+          translation = "[ 24, 313 ]"
+          scale = "[ 0.75, 0.75 ]">
+    </Label>   
+    <Label id = "cameraUUID" visible="false" /> 
+
+  </children>
+
+</component>

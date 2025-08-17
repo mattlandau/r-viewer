@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!--********** Copyright 2016 Roku Corp.  All Rights Reserved. **********-->
+
+<component name = "MyAuthenticationTask" extends="Task" >
+  <script type = "text/brightscript" uri="AuthenticationTask.brs"/>
+    <interface>
+      <field id="finished" type="boolean" alwaysNotify="true" value="false"/>
+      <field id="error" type="boolean" alwaysNotify="true" value="false"/>
+    </interface>
+</component>
