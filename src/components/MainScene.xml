@@ -12,21 +12,8 @@
                     <Label id="TimestampSpacer" text=" " />
                     <LayoutGroup id="MyTimestampGroup" layoutDirection="horiz">
                         <Timestamp id="MyTimestamp" />
-                        <!-- <BusySpinner id="RefreshingSpinner" visible="false" /> -->
                     </LayoutGroup>
-                    <!-- <LayoutGroup id="MyGridLoadingSpinnerVerticalGroup" layoutDirection="vert" >
-                        <Label id="GridLoadingSpinnerVerticalSpacer" text=" " />
-                        <LayoutGroup id="MyGridLoadingSpinnerHorizontalGroup" layoutDirection="horiz">
-                            <Label id="GridLoadingSpinnerHorizontalSpacer" text=" " />
-                            <BusySpinner id="GridLoadingSpinner" visible="false"/>
-                        </LayoutGroup>
-                    </LayoutGroup> -->
-                    <!-- <MarkupGrid id = "ThumbnailGrid" translation = "[ 130, -200 ]" itemComponentName = "MarkupGridItem" numColumns = "2" numRows = "5" itemSize = "[ 532, 308 ]" itemSpacing = "[ 30, 32 ]" drawFocusFeedback="true" visible = "true" scale = "[ 0.90, 0.90 ]" /> -->
                     <MarkupGrid id = "ThumbnailGrid" itemComponentName = "MarkupGridItem" numColumns = "2" numRows = "5" itemSize = "[ 532, 308 ]" itemSpacing = "[ 30, 32 ]" drawFocusFeedback="true" visible = "true" scale = "[ 0.90, 0.90 ]" />
-                    <!-- <LayoutGroup id="IncompleteLoadGroup" layoutDirection="horiz" >
-                        <Label id="ItemsLoadingSpacer" text=" " />
-                        <BusySpinner id="ItemsLoadingSpinner" scale="[ 0.5, 0.5 ]" visible="false"  />
-                    </LayoutGroup> -->
                     <LayoutGroup id="MyZeroDevicesGroup" layoutDirection="horiz">
                         <Label id="ZeroDevicesHorizontalSpacer" text=" " />
                         <Label id="MyZeroDevicesLabel" text="No devices found" font = "font:MediumBoldSystemFont" translation="[ 150, 180 ]" visible="false" />
