@@ -1,5 +1,0 @@
-{
-    "extends": "config/bsconfig.base.json",
-    "host": "ip of the roku",
-    "password": "dev password"
-}
