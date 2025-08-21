@@ -10,6 +10,8 @@ sub init()
         ActualDeviceCount: 0,
         APIKey: "",
         AuthenticationError: false,
+        DeviceURIStems: CreateObject("roAssociativeArray"),
+        DeviceNames: CreateObject("roAssociativeArray"),
         FederatedToken: "",
         LoadingState: "",
         SelectedVideoWallIndex: 0,
@@ -24,6 +26,8 @@ sub init()
         Timestamp: 0,
         VideoWalls: []
     })
+    m.global.SetField("deviceURIStems", CreateObject("roAssociativeArray"))
+    m.global.SetField("deviceNames", CreateObject("roAssociativeArray"))
 
     readAPIKey()
     createGetVideoWallsTask()
@@ -46,22 +50,15 @@ sub InitializeComponents()
     m.MyVideo = m.top.FindNode("MyVideo")
     m.Registry = CreateObject("roRegistrySection", "RhombusApp")
     m.Timer = m.top.FindNode("MyTimer")
-    m.ThumbnailGrid = m.top.findNode("exampleMarkupGrid")
+    m.ThumbnailGrid = m.top.findNode("ThumbnailGrid")
     m.GridLoadTask = createObject("roSGNode", "ContentReader")
     m.Timestamp = m.top.findNode("MyTimestamp")
     m.MyZeroDevicesLabel = m.top.FindNode("MyZeroDevicesLabel")
-    m.ItemsLoadingSpinner = m.top.FindNode("ItemsLoadingSpinner")
     m.AuthenticationTask = CreateObject("roSGNode", "MyAuthenticationTask")
-    m.GridLoadingSpinner = m.top.FindNode("GridLoadingSpinner")
-    m.GridLoadingSpinner.poster.uri = "pkg:/images/busyspinner-hd-1-0.png"
-    m.ItemsLoadingSpinner.poster.uri = "pkg:/images/busyspinner-hd-1-0.png"
-    m.ItemsLoadingSpacer = m.top.FindNode("ItemsLoadingSpacer")
     m.TimestampSpacer = m.top.FindNode("TimestampSpacer")
     m.GridLoadingSpinnerHorizontalSpacer = m.top.FindNode("GridLoadingSpinnerHorizontalSpacer")
     m.GridLoadingSpinnerVerticalSpacer = m.top.FindNode("GridLoadingSpinnerVerticalSpacer")
     m.ZeroDeviceHorizontalSpacer = m.top.FindNode("ZeroDevicesHorizontalSpacer")
-    m.RefreshingSpinner = m.top.FindNode("RefreshingSpinner")
-    m.RefreshingSpinner.poster.uri = "pkg:/images/busyspinner-hd-1-0.png"
 end sub
 
 
@@ -75,52 +72,6 @@ sub CreateObservers()
     m.GridLoadTask.observeField("zeroDevices", "DisplayZeroDevices")
     m.GridLoadTask.observeField("incompleteLoad", "DisplayIncompleteLoad")
     m.GridLoadTask.observeField("isRunning", "GridLoadTaskIsRunning")
-end sub
-
-sub GridLoadTaskIsRunning()
-    print "!!welcome GridLoadTaskIsRunning "; m.GridLoadTask.isRunning.ToStr()
-    if (m.GridLoadTask.isRunning = true)
-        SetSpinners("preserve", "preserve", "true")
-    else 
-        SetSpinners("preserve", "preserve", "false")
-    end if
-end sub
-
-sub SetSpinners(gridLoading as string, itemsLoading as string, gridRefreshing as string)
-    print "!!welcome SetSpinners"; gridLoading.ToStr(); " "; itemsLoading.ToStr(); " "; gridRefreshing.ToStr()
-    if (gridLoading = "true")
-        m.GridLoadingSpinner.scale = [ 1, 1 ]
-        m.GridLoadingSpinnerHorizontalSpacer.scale = [ 68, 1 ]
-        m.GridLoadingSpinnerVerticalSpacer.scale = [ 1, 10 ]
-        m.GridLoadingSpinner.visible = true
-        m.GridLoadingSpinnerHorizontalSpacer.visible = true
-        m.GridLoadingSpinnerVerticalSpacer.visible = true
-    else if (gridLoading = "false")
-        m.GridLoadingSpinner.scale = [ 0, 0 ]
-        m.GridLoadingSpinnerHorizontalSpacer.scale = [ 0, 0 ]
-        m.GridLoadingSpinnerVerticalSpacer.scale = [ 0, 0 ]
-        m.GridLoadingSpinner.visible = false
-        m.GridLoadingSpinnerHorizontalSpacer.visible = false
-        m.GridLoadingSpinnerVerticalSpacer.visible = false
-    end if
-
-    if (gridRefreshing = "true")
-        m.RefreshingSpinner.visible = true
-        m.RefreshingSpinner.scale = [ 0.15, 0.15 ]
-    else if (gridRefreshing = "false")
-        m.RefreshingSpinner.visible = false
-        m.RefreshingSpinner.scale = [ 0, 0 ]
-    end if
-
-    if (itemsLoading = "true")
-        m.ItemsLoadingSpinner.scale = [ 0.5, 0.5 ]
-        m.ItemsLoadingSpacer.scale = [ 64, 1 ]
-        m.ItemsLoadingSpinner.visible = true
-    else if (itemsLoading = "false")
-        m.ItemsLoadingSpinner.scale = [ 0, 0 ]
-        m.ItemsLoadingSpacer.scale = [ 0, 0 ]
-        m.ItemsLoadingSpinner.visible = false
-    end if
 end sub
 
 sub SetTimestampVisibility(show as Boolean)
@@ -142,7 +93,6 @@ function readAPIKey() as Boolean
     print "!!welcome readAPIKey"
     m.Registry = CreateObject("roRegistrySection", "RhombusApp")
     myText = m.Registry.Read("APIKey")
-    ' print "readAPIKey read: "; myText 'REMOVE
     m.global.APIKey = myText
     return true
 end function
@@ -159,7 +109,6 @@ end sub
 
 sub DisplayZeroDevices()
     print "!!welcome DisplayZeroDevices"
-    SetSpinners("false", "false", "false")
     SetTimestampVisibility(false)
     if (m.GridLoadTask.zeroDevices = true)
         print "!!welcome DisplayZeroDevices: zero devices true"
@@ -176,19 +125,8 @@ sub DisplayZeroDevices()
         m.ZeroDeviceHorizontalSpacer.visible = false
         m.ZeroDeviceHorizontalSpacer.scale = [ 0, 0 ]
         m.MyZeroDevicesLabel.visible = false
-        ' m.Timestamp.visible = true
         m.ThumbnailGrid.visible = true
         m.ThumbnailGrid.scale = [ 1, 1 ]
-    end if
-end sub
-
-sub DisplayIncompleteLoad()
-    print "!!welcome DisplayIncompleteLoad "; m.GridLoadTask.incompleteLoad.ToStr()
-
-    if (m.GridLoadTask.incompleteLoad = true)
-        SetSpinners("preserve","true","preserve")
-    else
-        SetSpinners("preserve","false","preserve")
     end if
 end sub
 
@@ -249,15 +187,20 @@ sub TimerElapsed()
         ShowAPIKeyError(false)
     end if
 
-    m.Timestamp.fireUpdate = true
-    m.global.RefreshCounter = m.global.RefreshCounter + 1
-    UpdateGrid()
+
+    if (m.GridLoadTask.isRunning = false)
+        print "!!welcome TimerElapsed: grid load task is not running, will refresh"
+        m.Timestamp.fireUpdate = true
+        m.global.RefreshCounter = m.global.RefreshCounter + 1
+        UpdateGrid()
+    else
+        print "!!welcome TimerElapsed: grid load task is running, will not refresh"
+    end if
 end sub
 
 sub showmarkupgrid()
-    print "!!welcome showThumbnailGrid (main)"
+    print "!!welcome showThumbnailGrid (main); itemSelected: "; m.ThumbnailGrid.itemSelected.ToStr()
     m.ThumbnailGrid.content = m.GridLoadTask.content
-    m.ThumbnailGrid.jumpToItem = m.global.SelectedThumbnailIndex
     m.Timestamp.fireUpdate = true
 end sub
 
@@ -292,26 +235,6 @@ sub OnSidebarFocusChange()
     print "sidebar focus changed to: "; m.focusedIndex
     m.global.PreviousVideoWallIndex = m.global.SelectedVideoWallIndex
     m.global.SelectedVideoWallIndex = m.focusedIndex
-    if (m.global.PreviousVideoWallIndex <> m.global.SelectedVideoWallIndex)
-        print "!!welcome OnSidebarFocusChange: different video wall selected"
-        SetSpinners("true", "false", "false")
-        m.ThumbnailGrid.visible = false
-        m.ThumbnailGrid.scale = [ 0, 0 ]
-        
-        SetTimestampVisibility(false)
-        m.global.LoadingState = "LoadingNewWall"
-        ' RestartThumbnailGridTask(false) 'TECHNICAL DEBT: this is poorly labeled, is about whether same wall or not
-    else 
-        print "!!welcome OnSidebarFocusChange: same video wall selected"
-        m.ThumbnailGrid.visible = true
-        m.ThumbnailGrid.scale = [ 1, 1 ]
-        SetSpinners("false", "false", "false")
-        SetTimestampVisibility(true)
-        m.global.LoadingState = "LoadingSameWall"
-        ' RestartThumbnailGridTask(true) 'TECHNICAL DEBT: this is poorly labeled, is about whether same wall or not
-    end if
-    
-    RestartThumbnailGridTask()
     UpdateGrid()
 end sub
 
@@ -366,14 +289,15 @@ sub RestartThumbnailGridTask()
         if (m.ThumbnailGrid.itemFocused <> invalid)
             print "!!welcome RestartThumbnailGridTask: itemFocused: "; m.ThumbnailGrid.itemFocused.ToStr()
             if (m.ThumbnailGrid.itemFocused < 1)
-                m.global.SelectedThumbnailIndex = 1
+                m.global.SelectedThumbnailIndex = 0
             else
                 m.global.SelectedThumbnailIndex = m.ThumbnailGrid.itemFocused
             end if
         end if
-        m.GridLoadTask.control = "STOP"
-        m.GridLoadTask.control = "RUN"    
+    
     end if
+    m.GridLoadTask.control = "STOP"
+    m.GridLoadTask.control = "RUN"
 end sub
 
 sub HandleThumbnailClick() 
