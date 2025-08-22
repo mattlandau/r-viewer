@@ -58,19 +58,18 @@ sub Notify_Roku_UserIsLoggedIn()
       port = createObject("roMessagePort")
       request.SetMessagePort(port)
       responseCode = request.AsyncPostFromString(formatJson(requestBody))
-      print("about to wait")
+      print("Notify_Roku_UserIsLoggedIn - about to wait")
       response = wait(0, port)
-      print("done waiting")
+      print("Notify_Roku_UserIsLoggedIn  - done waiting")
       responseCode = response.GetResponseCode()
       print(responseCode)
       if (responseCode <> 200)
           print "!!error in GetFederatedToken"
-          print responseCode
+          print "GetFederatedToken responseCode: " + responseCode.ToStr()
           return "error"
       end if
       failReaseon = response.GetFailureReason()
-      print(failReaseon)
-    '   print(request) 'REMOVE
+      print "GetFederatedToken - failReaseon: " + failReaseon.ToStr()
       responseBody = ParseJSON(response.GetString())
       if (responseBody = invalid)
           print "!!error in GetFederatedToken"

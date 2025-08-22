@@ -1,20 +1,19 @@
 sub init()
     print "!!welcome GLT GridLoadTask"
-  m.top.functionName = "getcontent"
+    m.top.functionName = "LoadGrid"
 end sub
 
-sub getcontent()
-    print "GridLoadTask GLT getcontent starting"
-    m.top.isRunning = true
+sub LoadGrid()
+    print "!!welcome GridLoadTask GLT LoadGrid starting"
     m.content = createObject("roSGNode", "ContentNode")
+    m.top.conent = m.content
 
     if (m.global.VideoWalls.count() = 0)
-        print "!!error in getcontent"
+        print "!!error in LoadGrid"
         m.top.error = true
-        m.top.isRunning = false
         return
     else
-        print "!!success in getcontent"
+        print "!!success in LoadGrid"
         m.top.error = false
     end if
 
@@ -26,9 +25,7 @@ sub getcontent()
     print "deviceCount: "; deviceCount.ToStr()
 
     for i = 0 to deviceCount - 1
-        print "deviceList item "; i.ToStr(); ": "; m.global.VideoWalls[selectedVideoWallIndex].deviceList[i]
-        placeholderItem = m.content.createChild("ContentNode")
-        placeholderItem.setField("hdgridposterurl", "pkg:/images/thumbnail-placeholder.png")
+        m.content.createChild("ContentNode")
     end for
     m.top.content = m.content
 
@@ -39,7 +36,7 @@ sub getcontent()
         if (m.global.VideoWalls[selectedVideoWallIndex].deviceList = invalid)
             print "no Cameras to show in this video wall, zeroDevices true"
             m.top.zeroDevices = true
-            m.top.isRunning = false
+            ' m.top.isRunning = false
             return
         end if
         
@@ -47,6 +44,7 @@ sub getcontent()
         i = 0
         for each device in m.global.VideoWalls[selectedVideoWallIndex].deviceList           
             frameUri = GetFrameUri(device)
+            print "getChildCount: "; m.content.getChildCount().ToStr()
             tempItem = m.content.GetChild(i)
             if (frameUri <> "error")
                 imageURI = FetchJpegImage(frameUri, idealDeviceCount)
@@ -81,7 +79,6 @@ sub getcontent()
         m.top.zeroDevices = false
     end if
     print "GridLoadTask getcontent ending; actualDeviceCount: "; actualDeviceCount.ToStr(); " idealDeviceCount: "; idealDeviceCount.ToStr()
-    m.top.isRunning = false
 end sub
 
 Function GetFrameURI(cameraUUID as string) As String
@@ -129,31 +126,27 @@ Function GetFrameURI(cameraUUID as string) As String
         print "!!error in GetFrameURI"
         return "error"
     end if
-    print("2 about to wait")
+    print("GetFrameURI - about to wait")
     response = wait(0, port)
     if (response = invalid)
         print "!!error in GetFrameURI"
         return "error"
     end if
-    print response.GetResponseCode()
-    print response.GetFailureReason()
-    print("2 done waiting")
+    print("GetFrameURI - done waiting")
     responseCode = response.GetResponseCode()
-    print "2 responseCode: "
-    print(responseCode)
+    print "GetFrameURI - responseCode: " + responseCode.ToStr()
     if (responseCode <> 200)
         print "!!error in GetFrameURI"
         return "error"
     end if
-    print "2 failReason: "
     failReason = response.GetFailureReason()
-    print(failReason)
+    print "GetFrameURI failReason: " + failReason.ToStr()
     responseBody = ParseJSON(response.GetString())
     if (responseBody = invalid)
-        print "responseBody is invalid"
+        print "GetFrameURI responseBody is invalid"
         return "error"
     end if
-    print "frameUri: "; responseBody.frameUri
+    print "GetFrameURI frameUri: "; responseBody.frameUri
     if (responseBody.frameUri = invalid)
         m.result = m.global.PlaceholderImage
     else
@@ -222,9 +215,7 @@ Function FetchJpegImage(url as String, counter as Integer) As String
     else
         success = false
     end if
-    print request.GetFailureReason()
-    print success
-
+    print "Did request fail?" + request.GetFailureReason()
     if (success)
         print "Image saved to: "; tmpPath
         return tmpPath  ' Return file path of the saved image

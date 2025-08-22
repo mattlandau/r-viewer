@@ -47,7 +47,6 @@ end sub
 sub PrintDir(path as string)
     m.fs = CreateObject("roFileSystem")
     tempDir = m.fs.GetDirectoryListing(path)
-    print "LIST LIST LIST Printing dir: "; path 
     print tempDir
 end sub
 
@@ -133,19 +132,18 @@ Function GetFederatedToken(APIKey as String) as String
     port = createObject("roMessagePort")
     request.SetMessagePort(port)
     responseCode = request.AsyncPostFromString(formatJson(requestBody))
-    print("about to wait")
+    print("GetFederatedToken - about to wait")
     response = wait(0, port)
-    print("done waiting")
+    print("GetFederatedToken - done waiting")
     responseCode = response.GetResponseCode()
     if (responseCode <> 200)
-        print "!!error in GetFederatedToken"
-        print responseCode
+        print "!!error in GetFederatedToken - " + responseCode.ToStr()
         return "error"
     end if
-    print(responseCode)
+    print "GetFederatedToken - responseCode - " + responseCode.ToStr()
     failReaseon = response.GetFailureReason()
-    print(failReaseon)
-    print(request)
+    print "GetFederatedToken - failReason - " + failReaseon.ToStr()
+    ' print "GetFederatedToken - request - " + request
     responseBody = ParseJSON(response.GetString())
     if (responseBody = invalid)
         print "!!error in GetFederatedToken"

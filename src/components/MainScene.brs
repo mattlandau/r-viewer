@@ -70,8 +70,6 @@ sub CreateObservers()
     m.GetVideoWallTask.observeField("error", "callVideoWallListError")
     m.GridLoadTask.observeField("content", "showmarkupgrid")
     m.GridLoadTask.observeField("zeroDevices", "DisplayZeroDevices")
-    m.GridLoadTask.observeField("incompleteLoad", "DisplayIncompleteLoad")
-    m.GridLoadTask.observeField("isRunning", "GridLoadTaskIsRunning")
 end sub
 
 sub SetTimestampVisibility(show as Boolean)
@@ -99,11 +97,13 @@ end function
 
 sub StopNonVideoTasks()
     print "!!welcome StopNonVideoTasks"
+    m.GridLoadTask.control = "STOP"
     m.Timer.control = "stop"
 end sub
 
 sub StartNonVideoTasks()
     print "!!welcome StartNonVideoTasks"
+    m.GridLoadTask.control = "RUN"
     m.Timer.control = "start"
 end sub
 
@@ -187,8 +187,8 @@ sub TimerElapsed()
         ShowAPIKeyError(false)
     end if
 
-
-    if (m.GridLoadTask.isRunning = false)
+    print "m.GridLoadTask.state: "; m.GridLoadTask.state
+    if (m.GridLoadTask.state <> "run")
         print "!!welcome TimerElapsed: grid load task is not running, will refresh"
         m.Timestamp.fireUpdate = true
         m.global.RefreshCounter = m.global.RefreshCounter + 1
@@ -276,7 +276,7 @@ sub UpdateGrid()
     devices = m.global.VideoWalls[m.global.SelectedVideoWallIndex].deviceList
     if (devices.count() > 0)
         for each device in devices
-            print "device: "; device
+            print "UpdateGrid device: "; device
         end for
     end if
 
@@ -297,12 +297,14 @@ sub RestartThumbnailGridTask()
     
     end if
     m.GridLoadTask.control = "STOP"
+    print "!!welcome RestartThumbnailGridTask: m.GridLoadTask.control = STOP"
     m.GridLoadTask.control = "RUN"
+    print "!!welcome RestartThumbnailGridTask: m.GridLoadTask.control = RUN"
 end sub
 
 sub HandleThumbnailClick() 
     print "!!welcome HandleThumbnailClick"
-    print "itemFocused: "; m.ThumbnailGrid.itemFocused.ToStr()
+    print "HandleThumbnailClick itemFocused: "; m.ThumbnailGrid.itemFocused.ToStr()
     m.global.SetField("SelectedThumbnailIndex", m.ThumbnailGrid.itemFocused)
     focusedItem = m.ThumbnailGrid.content.GetChild(m.global.SelectedThumbnailIndex)
     m.global.SetField("CurrentCameraUUID", focusedItem.GetField("cameraUUID"))

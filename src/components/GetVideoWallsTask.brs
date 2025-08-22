@@ -70,23 +70,22 @@ function GetVideoWalls() as Object
 
     responseCode = request.AsyncPostFromString(formatJson(requestBody))
     
-    print("about to wait")
+    print("GetVideoWalls - about to wait")
     response = wait(0, port)
-    print("done waiting")
+    print("GetVideoWalls - done waiting")
     responseCode = response.GetResponseCode()
     if (responseCode <> 200)
-        print "!!error in GetFederatedToken"
-        print responseCode
+        print "!!error in GetVideoWalls"
+        print "responseCode: " + responseCode.ToStr()
         return []
     end if
-    print "responseCode: "
-    print(responseCode)
-    print "failReason: "
+    print "responseCode: " + responseCode.ToStr()
     failReason = response.GetFailureReason()
-    print(failReason)
+    print "failReason: " + failReason.ToStr()
+    
     responseBody = ParseJSON(response.GetString())
     if (responseBody = invalid)
-        print "responseBody is invalid"
+        print "GetVideoWalls responseBody is invalid"
         return []
     end if
     videoWalls = responseBody.videoWalls
