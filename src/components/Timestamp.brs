@@ -23,7 +23,7 @@ sub updateTimestamp()
     time = dateTime.asTimeStringLoc("short-h24")
     seconds = dateTime.GetSeconds()
     if (seconds <> invalid)
-        m.top.text = "  Static image(s) updated on " + date + ", " + time + ":" + ZeroPadInteger(seconds,2) + "  "
+        m.top.text = "  Last image pulled in on " + date + ", " + time + ":" + ZeroPadInteger(seconds,2) + "  "
     end if 
     m.top.fireUpdate = false
 end sub

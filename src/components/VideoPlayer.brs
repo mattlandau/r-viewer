@@ -7,7 +7,7 @@ end sub
 sub showVideoContent()
     print "!!welcome showVideoContent (VideoComponent.bs)"
     print m.top.content
-    url = m.global.wanLiveM3u8Uri
+    url = m.global.wanLiveM3u8Uri + "?_ds=h240b240"
     ' url = m.global.wanLiveMpdUri
     ' if (url = "error")
     '     print "!!error in showVideoContent, url is _error_"

@@ -68,20 +68,5 @@ Function GetMediaURIs() As String
         return "error"
     end if
 
-
-    ' Create a URL transfer object
-    ' urlTransfer = CreateObject("roUrlTransfer")
-    ' urlTransfer.SetUrl(responseBody.wanLiveM3u8Uri)
-
-    ' Fetch the data
-    ' responseText = urlTransfer.GetToString()
-    ' print "GetMediaURIs Response Text: " + responseText
-
-
-
     return responseBody.wanLiveM3u8Uri
-    ' return responseBody.wanLiveMpdUri
-    ' return responseBody.wanLiveH264Uri
-
 end function
-

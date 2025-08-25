@@ -1,10 +1,9 @@
 sub init()
   print "!!welcome account button"
-    ' m.top.backgroundURI = "pkg:/images/rsgde_bg_hd.jpg"
-    m.topNode = m.top.GetScene()
-    m.AccountButton = m.top.findNode("MyAccountButton")
-    m.AccountButton.observeField("buttonSelected", "onButtonPressed")
-    m.keyboarddialog = createObject("roSGNode", "StandardKeyboardDialog")
+  m.topNode = m.top.GetScene()
+  m.AccountButton = m.top.findNode("MyAccountButton")
+  m.AccountButton.observeField("buttonSelected", "onButtonPressed")
+  m.keyboarddialog = createObject("roSGNode", "StandardKeyboardDialog")
 end sub
 
 sub onAuthenticationTaskError(event as Object)
@@ -18,7 +17,6 @@ sub onButtonPressed(event as Object)
     print "called onButtonPressed"
     button = event.getRoSGNode()
     print "Button with ID " + button.id + " was pressed!"
-    ' createReadTask()
     showdialog()
 
 end sub

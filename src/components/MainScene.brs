@@ -20,7 +20,6 @@ sub init()
         PlaceholderImage: "pkg:/images/focus-sd-1-0.png",
         CurrentCameraUUID: "",
         wanLiveM3u8Uri: "",
-        wanLiveMpdUri: "",
         RefreshCounter: 0,
         ScreenWidth: displaySize.w,
         ScreenHeight: displaySize.h,
@@ -349,17 +348,13 @@ sub goVideoContent()
 end sub
 
 sub HandleVideoBack() 
-    print "!!welcome VideoBack"
     print "HandleVideoBack MyVideo.state: "; m.MyVideo.state
     m.MyVideo.control = "stop"
     print "HandleVideoBack MyVideo.state: "; m.MyVideo.state
     m.LoadVideoPlayerTask.videoURLIsReady = false
     m.LoadVideoPlayerTask.control = "STOP"
-
     m.VideoPlayer.visible = false
-
     m.MyVideo.content = invalid
-    
     m.LayoutContainer.visible = true
     m.global.wanLiveM3u8Uri = "error"
     StartNonVideoTasks()
