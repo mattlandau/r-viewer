@@ -1,8 +1,17 @@
-# Welcome to Rhombus Viewer
+# Welcome to R-Viewer
 
-> This project was created using [`npx create-roku-app`](https://github.com/haystacknews/create-roku-app)
+This project provides a way to view footage from Rhombus Systems cameras on a Roku device. It also provides static snapshots from cameras in a video wall.
+
+## Prerequisites
+ 1. You will need a Rhombus API key that includes a role that includes at least View & Manage device access for the locations in your organization. You can follow these instructions for gaining an API key: https://docs.rhombus.com/
+    
+ 2. You will need a Roku device that has developer mode enabled: https://developer.roku.com/docs/developer-program/getting-started/developer-setup.md
+ 
+ 3. For running the app, you will need the VS Code Brightscript Language plug in OR comfortability side-loading apps onto your Roku
 
 ## Before you start
+
+> This project was created using [`npx create-roku-app`](https://github.com/haystacknews/create-roku-app)
 
 1. Install the project dependencies if you haven't done that yet.
 
@@ -18,16 +27,3 @@
 
 1. Select the option `Launch Rhombus Viewer (dev)`
 
-## NPM Commands available
-
-- `build`: Builds your project with [`brighterscript`](https://github.com/rokucommunity/brighterscript). Includes source maps.
-
-- `build:prod`: Builds your project without source maps.
-
-- `lint`: Lints your source files with [`@rokucommunity/bslint`](https://github.com/rokucommunity/bslint)
-
-- `lint:fix`: Lints your source files and applies automatic fixes.
-
-- `format`: Formats your source files with [`brighterscript-formatter`](https://github.com/rokucommunity/brighterscript-formatter)
-
-- `format:fix`: Formats your source files and applies automatic fixes.
