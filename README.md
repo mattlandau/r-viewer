@@ -1,6 +1,8 @@
 # Welcome to R-Viewer
 
-This project provides a way to view footage from Rhombus Systems cameras on a Roku device. It also provides static snapshots from cameras in a video wall.
+This project provides a way to view footage from Rhombus Systems cameras on a Roku device. It also provides static snapshots from cameras in a video wall. 
+
+Currently, it is alpha/beta stage. This repository intends to include at least a minimally viable product.
 
 ## Prerequisites
 
