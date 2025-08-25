@@ -3,9 +3,9 @@
 <component name="VideoPlayer" extends="Group">
     <script type="text/brightscript" uri="VideoPlayer.brs" />
     <interface>
-        <field id="showVideo" type="boolean" value="false" alwaysNotify="true" />
+        <!-- <field id="showVideo" type="boolean" value="false" alwaysNotify="true" /> -->
         <field id="content" type = "node" />
-        <field id="myText" type = "string" onChange = "showTestContent" />
+        <!-- <field id="myText" type = "string" onChange = "showTestContent" /> -->
         <function name="showVideoContent" />
     </interface>
     <children>

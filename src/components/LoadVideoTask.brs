@@ -8,14 +8,14 @@ sub LoadVideo()
     uriResult = GetMediaURIs()
     if (m.global.FederatedToken = "error" or uriResult = "error")
         print "!!error in LoadVideo"
-        m.top.videoReady = false
         m.global.wanLiveM3u8Uri = "error"
-        print "!!error in LoadVideo, wanLiveM3u8Uri is: "; m.global.wanLiveM3u8Uri
+        print "!!error in LoadVideo, wanLiveM3u8Uri is: "; m.global.wanLiveM3u8Uri; " videoReady is false"
         return
     end if
     print "!!welcome LoadVideo: FederateToken "; m.global.FederatedToken
     print "!!welcome LoadVideo: wanMedia "; m.global.wanLiveM3u8Uri
-    m.top.videoReady = true
+    
+    m.top.videoURLIsReady = true
 end sub
 
 Function GetMediaURIs() As String
@@ -42,7 +42,6 @@ Function GetMediaURIs() As String
 
     port = createObject("roMessagePort")
     request.SetMessagePort(port)
-    print request
     
     responseCode = request.AsyncPostFromString(formatJson(requestBody))
     print "GetMediaURIs responseCode: " + responseCode.ToStr()
@@ -60,12 +59,29 @@ Function GetMediaURIs() As String
     failReason = response.GetFailureReason()
     print "GetMediaURIs - failReason: " + failReason.ToStr()
     responseBody = ParseJSON(response.GetString())
+    print "GetMediaURIs - responseBody: "; responseBody
     if (responseBody <> invalid and responseBody.wanLiveM3u8Uri <> invalid)
         m.global.SetField("wanLiveM3u8Uri", responseBody.wanLiveM3u8Uri)
+        print "GetMediaURIs - wanLiveM3u8Uri for "; cameraUUID; " is "; responseBody.wanLiveM3u8Uri
     else
         print "responseBody is invalid, no WAN uri for "; cameraUUID
         return "error"
     end if
+
+
+    ' Create a URL transfer object
+    ' urlTransfer = CreateObject("roUrlTransfer")
+    ' urlTransfer.SetUrl(responseBody.wanLiveM3u8Uri)
+
+    ' Fetch the data
+    ' responseText = urlTransfer.GetToString()
+    ' print "GetMediaURIs Response Text: " + responseText
+
+
+
     return responseBody.wanLiveM3u8Uri
+    ' return responseBody.wanLiveMpdUri
+    ' return responseBody.wanLiveH264Uri
+
 end function
 

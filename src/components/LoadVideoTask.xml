@@ -3,6 +3,6 @@
     <interface>
       <field id="content" type="node" />
       <field id="error" type="string" alwaysNotify="true" />
-      <field id="videoReady" type="boolean" value="false" alwaysNotify="true" />
+      <field id="videoURLIsReady" type="boolean" value="false" alwaysNotify="true" />
     </interface>
 </component>

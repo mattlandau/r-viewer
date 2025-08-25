@@ -20,6 +20,7 @@ sub init()
         PlaceholderImage: "pkg:/images/focus-sd-1-0.png",
         CurrentCameraUUID: "",
         wanLiveM3u8Uri: "",
+        wanLiveMpdUri: "",
         RefreshCounter: 0,
         ScreenWidth: displaySize.w,
         ScreenHeight: displaySize.h,
@@ -59,6 +60,7 @@ sub InitializeComponents()
     m.GridLoadingSpinnerHorizontalSpacer = m.top.FindNode("GridLoadingSpinnerHorizontalSpacer")
     m.GridLoadingSpinnerVerticalSpacer = m.top.FindNode("GridLoadingSpinnerVerticalSpacer")
     m.ZeroDeviceHorizontalSpacer = m.top.FindNode("ZeroDevicesHorizontalSpacer")
+    m.LoadVideoPlayerTask = CreateObject("roSGNode", "LoadVideoTask")
 end sub
 
 
@@ -70,6 +72,18 @@ sub CreateObservers()
     m.GetVideoWallTask.observeField("error", "callVideoWallListError")
     m.GridLoadTask.observeField("content", "showmarkupgrid")
     m.GridLoadTask.observeField("zeroDevices", "DisplayZeroDevices")
+    m.LoadVideoPlayerTask.observeField("videoURLIsReady", "goVideoContent")
+    m.MyVideo.observeField("state", "videoStateChanged")
+end sub
+
+sub videoStateChanged()
+    print "!!wideoStateChanged: "; m.MyVideo.state
+    if (m.MyVideo.state = "error")
+        print "!!videoStateChanged "; m.MyVideo.errorMsg
+        print "!!videoStateChanged "; m.MyVideo.errorCode
+        print "!!videoStateChanged "; m.MyVideo.errorStr
+        print "!!videoStateChanged "; m.MyVideo.streamformat
+    end if
 end sub
 
 sub SetTimestampVisibility(show as Boolean)
@@ -308,42 +322,44 @@ sub HandleThumbnailClick()
     m.global.SetField("SelectedThumbnailIndex", m.ThumbnailGrid.itemFocused)
     focusedItem = m.ThumbnailGrid.content.GetChild(m.global.SelectedThumbnailIndex)
     m.global.SetField("CurrentCameraUUID", focusedItem.GetField("cameraUUID"))
-    m.VideoPlayer.showVideo = true
+
     m.LayoutContainer.visible = false
     m.VideoPlayer.visible = true
-    m.LoadVideoPlayerTask = CreateObject("roSGNode", "LoadVideoTask")
-    m.LoadVideoPlayerTask.observeField("videoReady", "goVideoContent")
+
     m.LoadVideoPlayerTask.control = "RUN"
     StopNonVideoTasks()
+
 end sub
 
 sub goVideoContent()
     print "!!welcome goVideoContent (main)"
-    if (m.top.videoReady = false)
-        print "!!error in goVideoContent: video not ready"
-        return
-    end if
+
     focusedItem = m.ThumbnailGrid.content.GetChild(m.global.SelectedThumbnailIndex)
-    if (focusedItem = invalid)
-        print "!!error in goVideoContent: focusedItem invalid"
-        return
-    end if
+    print "goVideoContent focusedItem: "; focusedItem
+    ' if (focusedItem = invalid)
+    '     print "!!error in goVideoContent: focusedItem invalid"
+    '     return
+    ' end if
     cameraUUID = focusedItem.GetField("cameraUUID")
     print "goVideoContent cameraUUID: "; cameraUUID
-    if (m.LoadVideoPlayerTask.videoReady = true and m.global.wanLiveM3u8Uri <> "error")
-        m.VideoPlayer.callFunc("showVideoContent")    
-    end if
+
+    print "goVideoContent url: "; m.global.wanLiveM3u8Uri
+    m.VideoPlayer.callFunc("showVideoContent")    
+
 end sub
 
 sub HandleVideoBack() 
     print "!!welcome VideoBack"
-    m.LoadVideoPlayerTask.videoReady = false
-    m.LoadVideoPlayerTask.control = "STOP"
-    m.VideoPlayer.showVideo = false
-    m.VideoPlayer.visible = false
-    m.MyVideo.showVideo = false
-    m.MyVideo.content = invalid
+    print "HandleVideoBack MyVideo.state: "; m.MyVideo.state
     m.MyVideo.control = "stop"
+    print "HandleVideoBack MyVideo.state: "; m.MyVideo.state
+    m.LoadVideoPlayerTask.videoURLIsReady = false
+    m.LoadVideoPlayerTask.control = "STOP"
+
+    m.VideoPlayer.visible = false
+
+    m.MyVideo.content = invalid
+    
     m.LayoutContainer.visible = true
     m.global.wanLiveM3u8Uri = "error"
     StartNonVideoTasks()
@@ -394,5 +410,3 @@ function OnKeyEvent(key as String, press as Boolean) as Boolean
     print "no handler called for key: "; key
     return false
 end function
-
-
