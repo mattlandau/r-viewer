@@ -1,5 +1,0 @@
-{
-    "extends": "config/bsconfig.base.json",
-    "host": "local ip address of your Roku",
-    "password": "password for user rokudev"
-}
