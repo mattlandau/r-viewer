@@ -12,7 +12,7 @@ Currently, it is alpha/beta stage. This repository intends to include at least a
  
  3. For running the app, you will need the VS Code Brightscript Language plug in (https://marketplace.visualstudio.com/items?itemName=RokuCommunity.brightscript) **OR** comfortability side-loading apps onto your Roku
 
-## For VS Code Support
+### For VS Code Support
 
 > This project was created using [`npx create-roku-app`](https://github.com/haystacknews/create-roku-app)
 
