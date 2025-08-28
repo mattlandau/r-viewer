@@ -114,7 +114,7 @@ Function GetUnixEpoch() As Integer
 End Function
 
 Function GetFederatedToken(APIKey as String) as String
-    print "!!welcome to getFederaredToken"
+    print "DEBUGLOG: to getFederaredToken"
     url = "https://api2.rhombussystems.com/api/org/generateFederatedSessionToken"
     request = createObject("roUrlTransfer")
     request.setRequest("POST")

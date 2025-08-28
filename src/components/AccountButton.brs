@@ -1,5 +1,5 @@
 sub init()
-  print "!!welcome account button"
+  print "DEBUGLOG: account button"
   m.topNode = m.top.GetScene()
   m.AccountButton = m.top.findNode("MyAccountButton")
   m.AccountButton.observeField("buttonSelected", "onButtonPressed")

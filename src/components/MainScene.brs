@@ -40,7 +40,7 @@ sub init()
 end sub
 
 sub InitializeComponents()
-    print "!!welcome InitializeComponents"
+    print "DEBUGLOG: InitializeComponents"
     m.LayoutContainer = m.top.FindNode("MyLayoutContainer")
     m.AccountButton = m.top.FindNode("MyAccountButton")
     m.VideoWallList = m.top.FindNode("MyList")
@@ -58,6 +58,7 @@ sub InitializeComponents()
     m.TimestampSpacer = m.top.FindNode("TimestampSpacer")
     m.GridLoadingSpinnerHorizontalSpacer = m.top.FindNode("GridLoadingSpinnerHorizontalSpacer")
     m.GridLoadingSpinnerVerticalSpacer = m.top.FindNode("GridLoadingSpinnerVerticalSpacer")
+    ' m.GridLoadingSpinner = m.top.FindNode("GridLoadingSpinner")
     m.ZeroDeviceHorizontalSpacer = m.top.FindNode("ZeroDevicesHorizontalSpacer")
     m.LoadVideoPlayerTask = CreateObject("roSGNode", "LoadVideoTask")
 end sub
@@ -86,7 +87,7 @@ sub videoStateChanged()
 end sub
 
 sub SetTimestampVisibility(show as Boolean)
-    print "!!welcome SetTimestampVisibility, show: "; show.ToStr()
+    print "DEBUGLOG: SetTimestampVisibility, show: "; show.ToStr()
     if (show = true)
         m.Timestamp.visible = false
         m.Timestamp.scale = [ 0, 0 ]
@@ -101,7 +102,7 @@ sub SetTimestampVisibility(show as Boolean)
 end sub
 
 function readAPIKey() as Boolean
-    print "!!welcome readAPIKey"
+    print "DEBUGLOG: readAPIKey"
     m.Registry = CreateObject("roRegistrySection", "RhombusApp")
     myText = m.Registry.Read("APIKey")
     m.global.APIKey = myText
@@ -109,31 +110,30 @@ function readAPIKey() as Boolean
 end function
 
 sub StopNonVideoTasks()
-    print "!!welcome StopNonVideoTasks"
+    print "DEBUGLOG: StopNonVideoTasks"
     m.GridLoadTask.control = "STOP"
     m.Timer.control = "stop"
 end sub
 
 sub StartNonVideoTasks()
-    print "!!welcome StartNonVideoTasks"
+    print "DEBUGLOG: StartNonVideoTasks"
     m.GridLoadTask.control = "RUN"
     m.Timer.control = "start"
 end sub
 
 sub DisplayZeroDevices()
-    print "!!welcome DisplayZeroDevices"
+    print "DEBUGLOG: DisplayZeroDevices"
     SetTimestampVisibility(false)
     if (m.GridLoadTask.zeroDevices = true)
-        print "!!welcome DisplayZeroDevices: zero devices true"
+        print "DEBUGLOG: DisplayZeroDevices: zero devices true"
         m.ZeroDeviceHorizontalSpacer.visible = true
         m.ZeroDeviceHorizontalSpacer.scale = [ 64, 1 ]
         m.MyZeroDevicesLabel.visible = true
-        ' m.Timestamp.visible = false
         print "DisplayZeroDevices: thumbnailgrid visible false"
         m.ThumbnailGrid.visible = false
         m.ThumbnailGrid.scale = [ 0, 0 ]
     else
-        print "!!welcome DisplayZeroDevices: zero devices false"
+        print "DEBUGLOG: DisplayZeroDevices: zero devices false"
         print "DisplayZeroDevices: thumbnailgrid visible true"
         m.ZeroDeviceHorizontalSpacer.visible = false
         m.ZeroDeviceHorizontalSpacer.scale = [ 0, 0 ]
@@ -144,19 +144,19 @@ sub DisplayZeroDevices()
 end sub
 
 sub GoResetGetVideoWallsTask()
-    print "!!welcome GoResetGetVideoWallsTask"
+    print "DEBUGLOG: GoResetGetVideoWallsTask"
     m.GetVideoWallTask.control = "STOP"
     m.GetVideoWallTask.control = "RUN"
     m.VideoWallList.setFocus(true)
 end sub
 
 sub callVideoWallListError() 
-    print "!!welcome callVideoWallListError"
+    print "DEBUGLOG: callVideoWallListError"
     ShowAPIKeyError(m.GetVideoWallTask.error)
 end sub
 
 sub ShowAPIKeyError(error as boolean)
-    print "!!welcome ShowAPIKeyError"
+    print "DEBUGLOG: ShowAPIKeyError"
     print "m.GetVideoWallTask.error "; m.GetVideoWallTask.error.ToStr()
 
     if (error = true) 
@@ -165,17 +165,17 @@ sub ShowAPIKeyError(error as boolean)
         m.VideoWallList.visible = false
         m.Timestamp.visible = false
         m.AccountButton.SetFocus(true)
-        m.GridLoadingSpinner.visible = false
-        m.GridLoadingSpinner.scale = [ 0, 0 ]
+        ' m.GridLoadingSpinner.visible = false
+        ' m.GridLoadingSpinner.scale = [ 0, 0 ]
     else
         print "api key error false"
         m.VideoWallList.visible = true
         if (m.GridLoadTask.zeroDevices = true)
-            print "!!welcome callVideoWallListError: zero devices true"
+            print "DEBUGLOG: callVideoWallListError: zero devices true"
             print "callVideoWallListError: thumbnailgrid visible false"
             m.ThumbnailGrid.visible = false
         else
-            print "!!welcome callVideoWallListError: zero devices false"
+            print "DEBUGLOG: callVideoWallListError: zero devices false"
             print "callVideoWallListError: thumbnailgrid visible true"
             m.ThumbnailGrid.visible = true
         end if
@@ -185,59 +185,59 @@ sub ShowAPIKeyError(error as boolean)
 end sub
 
 sub TimerElapsed()
-    print "!!welcome TimerElapsed"
+    print "DEBUGLOG: TimerElapsed"
     print "getVideoWallsTask: "; m.GetVideoWallTask.state
     if (m.GetVideoWallTask.state = "stop" and m.GetVideoWallTask.error = true)
-        print "!!welcome TimerElapsed: make it run"
+        print "DEBUGLOG: TimerElapsed: make it run"
         m.GetVideoWallTask.control = "RUN"
 
     end if
     if (m.global.AuthenticationError = true)
-        print "!!welcome TimerElapsed: authentication error true"
+        print "DEBUGLOG: TimerElapsed: authentication error true"
         ShowAPIKeyError(true)
     else 
-        print "!!welcome TimerElapsed: authentication error false"
+        print "DEBUGLOG: TimerElapsed: authentication error false"
         ShowAPIKeyError(false)
     end if
 
     print "m.GridLoadTask.state: "; m.GridLoadTask.state
     if (m.GridLoadTask.state <> "run")
-        print "!!welcome TimerElapsed: grid load task is not running, will refresh"
+        print "DEBUGLOG: TimerElapsed: grid load task is not running, will refresh"
         m.Timestamp.fireUpdate = true
         m.global.RefreshCounter = m.global.RefreshCounter + 1
         UpdateGrid()
     else
-        print "!!welcome TimerElapsed: grid load task is running, will not refresh"
+        print "DEBUGLOG: TimerElapsed: grid load task is running, will not refresh"
     end if
 end sub
 
 sub showmarkupgrid()
-    print "!!welcome showThumbnailGrid (main); itemSelected: "; m.ThumbnailGrid.itemSelected.ToStr()
+    print "DEBUGLOG: showThumbnailGrid (main); itemSelected: "; m.ThumbnailGrid.itemSelected.ToStr()
     m.ThumbnailGrid.content = m.GridLoadTask.content
     m.Timestamp.fireUpdate = true
 end sub
 
 sub showVideoWallThumbnailGrid()
-    print "!!welcome showVideoWallThumbnailGrid"
+    print "DEBUGLOG: showVideoWallThumbnailGrid"
     m.VideoThumbnailGrid.content = m.LoadVideoWallThumbnailsTask.content
 end sub
 
 sub onRequestTopNodeForVideoWallList()
-    print "!!welcome onRequestTopNodeForVideoWallList"
+    print "DEBUGLOG: onRequestTopNodeForVideoWallList"
     if (m.GetVideoWallTask.requestTopNode = true)
         m.GetVideoWallTask.topNode = m.top ' Pass reference to scene
     end if
 end sub
 
 sub onRequestTopNodeForVideoWallThumbnails()
-    print "!!welcome onRequestTopNodeForVideoWallThumbnails"
+    print "DEBUGLOG: onRequestTopNodeForVideoWallThumbnails"
     if (m.LoadVideoWallThumbnailsTask.requestTopNode = true)
         m.LoadVideoWallThumbnailsTask.topNode = m.top ' Pass reference to scene
     end if
 end sub
 
 sub createGetVideoWallsTask()
-    print "!!welcome GetVideoWalls task"
+    print "DEBUGLOG: GetVideoWalls task"
     m.GetVideoWallTask.control = "RUN"
 end sub
 
@@ -252,7 +252,7 @@ sub OnSidebarFocusChange()
 end sub
 
 Function DevicesCountCurrentWall() as integer
-    print "!!welcome DevicesCount (main)"
+    print "DEBUGLOG: DevicesCount (main)"
     if (m.global.VideoWalls = invalid or m.global.VideoWalls.count() = 0)
         print "devicescount returning 0"
         return 0
@@ -268,7 +268,7 @@ Function DevicesCountCurrentWall() as integer
 end function
 
 sub UpdateGrid() 
-    print "!!welcome UpdateGrid"
+    print "DEBUGLOG: UpdateGrid"
 
     if (m.global.VideoWalls = invalid or m.global.VideoWalls.count() = 0)
         print "!!error in UpdateGrid: no video walls"
@@ -300,7 +300,7 @@ sub RestartThumbnailGridTask()
     print "starting RestartThumbnailGridTask"
     if (m.focusedIndex >= 0)
         if (m.ThumbnailGrid.itemFocused <> invalid)
-            print "!!welcome RestartThumbnailGridTask: itemFocused: "; m.ThumbnailGrid.itemFocused.ToStr()
+            print "DEBUGLOG: RestartThumbnailGridTask: itemFocused: "; m.ThumbnailGrid.itemFocused.ToStr()
             if (m.ThumbnailGrid.itemFocused < 1)
                 m.global.SelectedThumbnailIndex = 0
             else
@@ -310,13 +310,13 @@ sub RestartThumbnailGridTask()
     
     end if
     m.GridLoadTask.control = "STOP"
-    print "!!welcome RestartThumbnailGridTask: m.GridLoadTask.control = STOP"
+    print "DEBUGLOG: RestartThumbnailGridTask: m.GridLoadTask.control = STOP"
     m.GridLoadTask.control = "RUN"
-    print "!!welcome RestartThumbnailGridTask: m.GridLoadTask.control = RUN"
+    print "DEBUGLOG: RestartThumbnailGridTask: m.GridLoadTask.control = RUN"
 end sub
 
 sub HandleThumbnailClick() 
-    print "!!welcome HandleThumbnailClick"
+    print "DEBUGLOG: HandleThumbnailClick"
     print "HandleThumbnailClick itemFocused: "; m.ThumbnailGrid.itemFocused.ToStr()
     m.global.SetField("SelectedThumbnailIndex", m.ThumbnailGrid.itemFocused)
     focusedItem = m.ThumbnailGrid.content.GetChild(m.global.SelectedThumbnailIndex)
@@ -331,7 +331,7 @@ sub HandleThumbnailClick()
 end sub
 
 sub goVideoContent()
-    print "!!welcome goVideoContent (main)"
+    print "DEBUGLOG: goVideoContent (main)"
 
     focusedItem = m.ThumbnailGrid.content.GetChild(m.global.SelectedThumbnailIndex)
     print "goVideoContent focusedItem: "; focusedItem

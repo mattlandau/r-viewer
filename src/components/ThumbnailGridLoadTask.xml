@@ -3,7 +3,7 @@
 <!--********** Copyright 2016 Roku Corp.  All Rights Reserved. **********-->
 
 <component name = "ContentReader" extends = "Task" >
-  <script type = "text/brightscript" uri="GridLoadTask.brs" />
+  <script type = "text/brightscript" uri="ThumbnailGridLoadTask.brs" />
   <interface>
     <field id = "content" type = "node" />
     <field id = "error" type = "boolean" alwaysNotify = "true" />

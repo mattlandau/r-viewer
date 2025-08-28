@@ -1,10 +1,10 @@
 sub init()
-    print "!!welcome GLT GridLoadTask"
+    print "DEBUGLOG: GLT ThumbnailGridLoadTask"
     m.top.functionName = "LoadGrid"
 end sub
 
 sub LoadGrid()
-    print "!!welcome GridLoadTask GLT LoadGrid starting"
+    print "DEBUGLOG: ThumbnailGridLoadTask GLT LoadGrid starting"
     m.content = createObject("roSGNode", "ContentNode")
     m.top.conent = m.content
 
@@ -82,7 +82,7 @@ sub LoadGrid()
 end sub
 
 Function GetFrameURI(cameraUUID as string) As String
-    print "!!welcome GLT GetFrameURI"
+    print "DEBUGLOG: GLT GetFrameURI"
     cachedFrameURIStem = getCachedFrameURIStem(cameraUUID)
     timestampS = GetUnixEpochSeconds(60)
     timestampMs = timestampS * 1000
@@ -160,7 +160,7 @@ Function GetFrameURI(cameraUUID as string) As String
 end function
 
 function getCachedFrameURIStem(cameraUUID as string) as String
-    print "!!welcome GLT getCachedFrameURI"
+    print "DEBUGLOG: GLT getCachedFrameURI"
     if (m.global.DeviceURIStems[cameraUUID] = invalid)
             print "getCachedFrameURIStem: cache miss"
             return "invalid"
@@ -172,7 +172,7 @@ function getCachedFrameURIStem(cameraUUID as string) as String
 end function
 
 sub saveFrameURIStem(cameraUUID as string, frameURI as string)
-    print "!!welcome GLT saveFrameURIStem"
+    print "DEBUGLOG: GLT saveFrameURIStem"
     splitter = CreateObject("roRegex", "frame", "")
     frameURIStem = splitter.Split(frameURI)[0]
     print "frameURIStem: "; frameURIStem.ToStr()
@@ -185,7 +185,7 @@ sub saveFrameURIStem(cameraUUID as string, frameURI as string)
 end sub
 
 Function FetchJpegImage(url as String, counter as Integer) As String
-    print "!!welcome GLT FetchJpegImage, url: "; url; " counter: "; counter.ToStr()
+    print "DEBUGLOG: GLT FetchJpegImage, url: "; url; " counter: "; counter.ToStr()
     if (url = m.global.PlaceholderImage)
         return m.global.PlaceholderImage
     end if
@@ -242,7 +242,7 @@ End Function
 
 
 function getCachedDeviceName(cameraUUID as string) as String
-    print "!!welcome GLT getCachedFrameURI"
+    print "DEBUGLOG: GLT getCachedFrameURI"
     if (m.global.DeviceNames[cameraUUID] = invalid)
         print "getCachedDeviceName: cache miss"
         return "invalid"
@@ -254,14 +254,14 @@ function getCachedDeviceName(cameraUUID as string) as String
 end function
 
 sub saveDeviceName(cameraUUID as string, deviceName as string)
-    print "!!welcome GLT saveDeviceName, saving - cameraUUID: "; cameraUUID; " deviceName: "; deviceName
+    print "DEBUGLOG: GLT saveDeviceName, saving - cameraUUID: "; cameraUUID; " deviceName: "; deviceName
     myTempAssociativeArray = m.global.DeviceNames
     myTempAssociativeArray[cameraUUID] = deviceName
     m.global.setField("DeviceNames", myTempAssociativeArray)
 end sub
 
 function GetCameraDetails(cameraUUID as string) as Object
-    print "!!welcome GLT GetCameraDetails"
+    print "DEBUGLOG: GLT GetCameraDetails"
 
     cachedDeviceName = getCachedDeviceName(cameraUUID)
     if (cachedDeviceName <> "invalid")
@@ -299,10 +299,10 @@ function GetCameraDetails(cameraUUID as string) as Object
     if (responseCode <> 200)
         failReason = response.GetFailureReason()
         print(failReason)
-        print "!!welcome GetCameraDetails GLT - error in GetCameraDetails - "; failReason; ", url: "; url
+        print "DEBUGLOG: GetCameraDetails GLT - error in GetCameraDetails - "; failReason; ", url: "; url
         return invalid
     end if
-    print "!!welcome GetCameraDetails GLT - success in GetCameraDetails, url: "; url
+    print "DEBUGLOG: GetCameraDetails GLT - success in GetCameraDetails, url: "; url
     
     responseBody = ParseJSON(response.GetString())
 

@@ -4,7 +4,7 @@ sub init()
 end sub
 
 sub updateTimestamp()
-    print "!!welcome updateTimestamp"
+    print "DEBUGLOG: updateTimestamp"
     if (m.top.fireUpdate = false)
         return
     end if

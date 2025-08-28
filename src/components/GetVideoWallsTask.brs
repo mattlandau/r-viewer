@@ -1,10 +1,10 @@
 sub Init()
     m.top.functionName = "getVideoWallsTask"
-    print "!!welcome getVideoWallTask"
+    print "DEBUGLOG: getVideoWallTask"
 end sub
 
 function getVideoWallsTask() as Boolean
-    print "!!welcome getVideoWallsTask"
+    print "DEBUGLOG: getVideoWallsTask"
     wallNames = GetVideoWalls()
     if (wallNames.count() = 0)
         print "!!error in getVideoWallsTask"
@@ -18,7 +18,7 @@ function getVideoWallsTask() as Boolean
 end function
 
 sub assignTopNode()
-    print "!!welcome assignTopNode"
+    print "DEBUGLOG: assignTopNode"
     m.top.requestTopNode = true
     while (m.top.topNode = invalid)
         print "sleeping 1 sec"
@@ -46,7 +46,7 @@ end sub
 
 
 function GetVideoWalls() as Object
-    print "!!welcome to GetVideoWalls (GetVideoWallsTask)"
+    print "DEBUGLOG: to GetVideoWalls (GetVideoWallsTask)"
     url = "https://api2.rhombussystems.com/api/camera/getVideoWalls"
     APIKey = m.global.APIKey
     if (APIKey.Len() < 22)

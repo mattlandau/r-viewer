@@ -9,7 +9,7 @@ sub init()
 end sub
 
 sub showcontent()
-  print "!!welcome markupgriditem showcontent"
+  print "DEBUGLOG: markupgriditem showcontent"
   print "m.itemposter.uri: " + m.itemposter.uri
   if (m.itemposter.uri = "")
     m.busySpinner.visible = true

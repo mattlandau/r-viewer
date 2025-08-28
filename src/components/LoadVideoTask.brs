@@ -1,10 +1,10 @@
 sub Init()
-    print "!!welcome LoadVideoTask"
+    print "DEBUGLOG: LoadVideoTask"
     m.top.functionName = "LoadVideo"
 end sub
 
 sub LoadVideo()
-    print "!!welcome LoadVideo (task)"
+    print "DEBUGLOG: LoadVideo (task)"
     uriResult = GetMediaURIs()
     if (m.global.FederatedToken = "error" or uriResult = "error")
         print "!!error in LoadVideo"
@@ -12,8 +12,8 @@ sub LoadVideo()
         print "!!error in LoadVideo, wanLiveM3u8Uri is: "; m.global.wanLiveM3u8Uri; " videoReady is false"
         return
     end if
-    print "!!welcome LoadVideo: FederateToken "; m.global.FederatedToken
-    print "!!welcome LoadVideo: wanMedia "; m.global.wanLiveM3u8Uri
+    print "DEBUGLOG: LoadVideo: FederateToken "; m.global.FederatedToken
+    print "DEBUGLOG: LoadVideo: wanMedia "; m.global.wanLiveM3u8Uri
     
     m.top.videoURLIsReady = true
 end sub
