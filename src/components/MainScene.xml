@@ -14,10 +14,6 @@
                         <Timestamp id="MyTimestamp" />
                     </LayoutGroup>
                     <MarkupGrid id = "ThumbnailGrid" itemComponentName = "MarkupGridItem" numColumns = "2" numRows = "5" itemSize = "[ 532, 308 ]" itemSpacing = "[ 30, 32 ]" drawFocusFeedback="true" visible = "true" scale = "[ 0.90, 0.90 ]" />
-                    <LayoutGroup id="MyZeroDevicesGroup" layoutDirection="horiz">
-                        <Label id="ZeroDevicesHorizontalSpacer" text=" " />
-                        <Label id="MyZeroDevicesLabel" text="No devices found" font = "font:MediumBoldSystemFont" translation="[ 150, 180 ]" visible="false" />
-                    </LayoutGroup>
                </LayoutGroup>
             </LayoutGroup>
         </LayoutGroup>

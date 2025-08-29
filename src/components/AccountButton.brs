@@ -23,8 +23,7 @@ end sub
 
 sub showdialog()
     print "called show dialog"
-    print "voice enabled: "
-    print m.keyboarddialog.textEditBox.voiceEnabled
+    print "voice enabled: "; m.keyboarddialog.textEditBox.voiceEnabled.ToStr()
     m.keyboarddialog.textEditBox.voiceEnabled = true
     m.keyboarddialog.title = "API Key"
     m.keyboarddialog.textEditBox.secureMode = true
@@ -55,12 +54,4 @@ sub OnKeyboardDialogButtonPressed(event as Object)
       m.AuthenticationTask = createObject("roSGNode", "MyAuthenticationTask")
       m.AuthenticationTask.control = "RUN"
   end if
-end sub
-
-sub ResetRelevantGlobals()
-    m.global.AddFields({
-      CurrentCameraUUID: "",
-      wanLiveM3u8Uri: "",
-      Timestamp: 0
-  })
 end sub

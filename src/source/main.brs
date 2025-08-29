@@ -11,7 +11,6 @@ sub main()
     APIKey = m.Registry.Read("APIKey")
     if (APIKey <> invalid)
         SetFederatedToken(APIKey)
-
     end if
 
     StartRepeatingTask()
@@ -32,7 +31,6 @@ sub SetFederatedToken(APIKey as String)
     federatedToken = "error"
     federatedToken = GetFederatedToken(APIKey)
     if (federatedToken <> "error")
-        ' print "!!federatedToken: "; federatedToken 'REMOVE
         Notify_Roku_UserIsLoggedIn()
         print "!!Roku_Authenticated event dispatched via main (task)"
         m.global.AuthenticationError = false
@@ -143,7 +141,6 @@ Function GetFederatedToken(APIKey as String) as String
     print "GetFederatedToken - responseCode - " + responseCode.ToStr()
     failReaseon = response.GetFailureReason()
     print "GetFederatedToken - failReason - " + failReaseon.ToStr()
-    ' print "GetFederatedToken - request - " + request
     responseBody = ParseJSON(response.GetString())
     if (responseBody = invalid)
         print "!!error in GetFederatedToken"

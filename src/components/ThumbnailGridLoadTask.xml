@@ -7,6 +7,5 @@
   <interface>
     <field id = "content" type = "node" />
     <field id = "error" type = "boolean" alwaysNotify = "true" />
-    <field id = "zeroDevices" type = "boolean" alwaysNotify = "true" value="false"/>
   </interface>
 </component>

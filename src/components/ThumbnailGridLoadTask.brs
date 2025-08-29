@@ -1,19 +1,19 @@
 sub init()
     print "DEBUGLOG: GLT ThumbnailGridLoadTask"
-    m.top.functionName = "LoadGrid"
+    m.top.functionName = "LoadThumbnailGrid"
 end sub
 
-sub LoadGrid()
-    print "DEBUGLOG: ThumbnailGridLoadTask GLT LoadGrid starting"
+sub LoadThumbnailGrid()
+    print "DEBUGLOG: ThumbnailGridLoadTask GLT LoadThumbnailGrid starting"
     m.content = createObject("roSGNode", "ContentNode")
     m.top.conent = m.content
 
     if (m.global.VideoWalls.count() = 0)
-        print "!!error in LoadGrid"
+        print "!!error in LoadThumbnailGrid"
         m.top.error = true
         return
     else
-        print "!!success in LoadGrid"
+        print "!!success in LoadThumbnailGrid"
         m.top.error = false
     end if
 
@@ -31,15 +31,6 @@ sub LoadGrid()
 
     if (selectedVideoWallIndex >= 0)
         print m.global.VideoWalls[selectedVideoWallIndex].displayName
-
-    
-        if (m.global.VideoWalls[selectedVideoWallIndex].deviceList = invalid)
-            print "no Cameras to show in this video wall, zeroDevices true"
-            m.top.zeroDevices = true
-            ' m.top.isRunning = false
-            return
-        end if
-        
         print "deviceList count: "; deviceCount.ToStr()
         i = 0
         for each device in m.global.VideoWalls[selectedVideoWallIndex].deviceList           
@@ -71,13 +62,6 @@ sub LoadGrid()
         print "Grid getcontent ending, devicesCount: "; deviceCount.ToStr(); " actualDeviceCount: "; actualDeviceCount.ToStr(); " idealDeviceCount: "; idealDeviceCount.ToStr()
     end if
     m.top.content = m.content
-    
-    if (idealDeviceCount = 0)
-        m.top.zeroDevices = true
-        print "!!error in getcontent, no devices"
-    else 
-        m.top.zeroDevices = false
-    end if
     print "GridLoadTask getcontent ending; actualDeviceCount: "; actualDeviceCount.ToStr(); " idealDeviceCount: "; idealDeviceCount.ToStr()
 end sub
 

@@ -13,13 +13,12 @@ sub init()
         DeviceURIStems: CreateObject("roAssociativeArray"),
         DeviceNames: CreateObject("roAssociativeArray"),
         FederatedToken: "",
-        LoadingState: "",
         SelectedVideoWallIndex: 0,
         PreviousVideoWallIndex: -1,
         SelectedThumbnailIndex: 0,
         PlaceholderImage: "pkg:/images/focus-sd-1-0.png",
         CurrentCameraUUID: "",
-        wanLiveM3u8Uri: "",
+        wanURI: "",
         RefreshCounter: 0,
         ScreenWidth: displaySize.w,
         ScreenHeight: displaySize.h,
@@ -53,13 +52,10 @@ sub InitializeComponents()
     m.ThumbnailGrid = m.top.findNode("ThumbnailGrid")
     m.GridLoadTask = createObject("roSGNode", "ContentReader")
     m.Timestamp = m.top.findNode("MyTimestamp")
-    m.MyZeroDevicesLabel = m.top.FindNode("MyZeroDevicesLabel")
     m.AuthenticationTask = CreateObject("roSGNode", "MyAuthenticationTask")
     m.TimestampSpacer = m.top.FindNode("TimestampSpacer")
     m.GridLoadingSpinnerHorizontalSpacer = m.top.FindNode("GridLoadingSpinnerHorizontalSpacer")
     m.GridLoadingSpinnerVerticalSpacer = m.top.FindNode("GridLoadingSpinnerVerticalSpacer")
-    ' m.GridLoadingSpinner = m.top.FindNode("GridLoadingSpinner")
-    m.ZeroDeviceHorizontalSpacer = m.top.FindNode("ZeroDevicesHorizontalSpacer")
     m.LoadVideoPlayerTask = CreateObject("roSGNode", "LoadVideoTask")
 end sub
 
@@ -71,7 +67,6 @@ sub CreateObservers()
     m.GetVideoWallTask.observeField("requestTopNode", "onRequestTopNodeForVideoWallList")
     m.GetVideoWallTask.observeField("error", "callVideoWallListError")
     m.GridLoadTask.observeField("content", "showmarkupgrid")
-    m.GridLoadTask.observeField("zeroDevices", "DisplayZeroDevices")
     m.LoadVideoPlayerTask.observeField("videoURLIsReady", "goVideoContent")
     m.MyVideo.observeField("state", "videoStateChanged")
 end sub
@@ -121,28 +116,6 @@ sub StartNonVideoTasks()
     m.Timer.control = "start"
 end sub
 
-sub DisplayZeroDevices()
-    print "DEBUGLOG: DisplayZeroDevices"
-    SetTimestampVisibility(false)
-    if (m.GridLoadTask.zeroDevices = true)
-        print "DEBUGLOG: DisplayZeroDevices: zero devices true"
-        m.ZeroDeviceHorizontalSpacer.visible = true
-        m.ZeroDeviceHorizontalSpacer.scale = [ 64, 1 ]
-        m.MyZeroDevicesLabel.visible = true
-        print "DisplayZeroDevices: thumbnailgrid visible false"
-        m.ThumbnailGrid.visible = false
-        m.ThumbnailGrid.scale = [ 0, 0 ]
-    else
-        print "DEBUGLOG: DisplayZeroDevices: zero devices false"
-        print "DisplayZeroDevices: thumbnailgrid visible true"
-        m.ZeroDeviceHorizontalSpacer.visible = false
-        m.ZeroDeviceHorizontalSpacer.scale = [ 0, 0 ]
-        m.MyZeroDevicesLabel.visible = false
-        m.ThumbnailGrid.visible = true
-        m.ThumbnailGrid.scale = [ 1, 1 ]
-    end if
-end sub
-
 sub GoResetGetVideoWallsTask()
     print "DEBUGLOG: GoResetGetVideoWallsTask"
     m.GetVideoWallTask.control = "STOP"
@@ -170,15 +143,8 @@ sub ShowAPIKeyError(error as boolean)
     else
         print "api key error false"
         m.VideoWallList.visible = true
-        if (m.GridLoadTask.zeroDevices = true)
-            print "DEBUGLOG: callVideoWallListError: zero devices true"
-            print "callVideoWallListError: thumbnailgrid visible false"
-            m.ThumbnailGrid.visible = false
-        else
-            print "DEBUGLOG: callVideoWallListError: zero devices false"
-            print "callVideoWallListError: thumbnailgrid visible true"
-            m.ThumbnailGrid.visible = true
-        end if
+        print "callVideoWallListError: thumbnailgrid visible true"
+        m.ThumbnailGrid.visible = true
         m.Timestamp.visible = true
         m.APIKeyError.visible = false
     end if
@@ -342,7 +308,7 @@ sub goVideoContent()
     cameraUUID = focusedItem.GetField("cameraUUID")
     print "goVideoContent cameraUUID: "; cameraUUID
 
-    print "goVideoContent url: "; m.global.wanLiveM3u8Uri
+    print "goVideoContent url: "; m.global.wanURI
     m.VideoPlayer.callFunc("showVideoContent")    
 
 end sub
@@ -356,7 +322,7 @@ sub HandleVideoBack()
     m.VideoPlayer.visible = false
     m.MyVideo.content = invalid
     m.LayoutContainer.visible = true
-    m.global.wanLiveM3u8Uri = "error"
+    m.global.wanURI = "error"
     StartNonVideoTasks()
 end sub
 
