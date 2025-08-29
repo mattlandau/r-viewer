@@ -9,5 +9,4 @@ roku_modules
 node_modules/
 bsconfig.example.json
 package-lock.json
-README.md
 *.zip
