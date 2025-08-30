@@ -5,6 +5,7 @@ end sub
 
 function getVideoWallsTask() as Boolean
     print "DEBUGLOG: getVideoWallsTask"
+    wallNames = []
     wallNames = GetVideoWalls()
     if (wallNames.count() = 0)
         print "!!error in getVideoWallsTask"
@@ -40,7 +41,6 @@ sub setVideoWallList(wallNames as Object)
         temp = m.VideoWallList.createChild("ContentNode")
         temp.title = name
     end for 
-
     print "finished setVideoWallList"
 end sub
 
@@ -49,10 +49,6 @@ function GetVideoWalls() as Object
     print "DEBUGLOG: to GetVideoWalls (GetVideoWallsTask)"
     url = "https://api2.rhombussystems.com/api/camera/getVideoWalls"
     APIKey = m.global.APIKey
-    if (APIKey.Len() < 22)
-        print "!!error in GetVideoWalls - APIKey is too short"
-        return []
-    end if
     request = createObject("roUrlTransfer")
     request.SetCertificatesFile("common:/certs/ca-bundle.crt")
     request.setURL(url)
@@ -70,13 +66,10 @@ function GetVideoWalls() as Object
 
     responseCode = request.AsyncPostFromString(formatJson(requestBody))
     
-    print("GetVideoWalls - about to wait")
     response = wait(0, port)
-    print("GetVideoWalls - done waiting")
     responseCode = response.GetResponseCode()
     if (responseCode <> 200)
-        print "!!error in GetVideoWalls"
-        print "responseCode: " + responseCode.ToStr()
+        print "!!error in GetVideoWalls - "; responseCode.ToStr()
         return []
     end if
     print "responseCode: " + responseCode.ToStr()

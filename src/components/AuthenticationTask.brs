@@ -3,7 +3,7 @@ sub init()
 end sub
 
 sub TryAuthenticating()
-    print "DEBUGLOG: to TryAuthenticating"
+    print "DEBUGLOG: AuthenticationTask -  TryAuthenticating"
     error = true
     federatedToken = GetFederatedToken(m.global.APIKey)
     if (federatedToken <> "error")
@@ -22,7 +22,7 @@ sub TryAuthenticating()
 end sub
 
 sub Notify_Roku_UserIsLoggedIn()
-
+    print "DEBUGLOG: AuthenticationTask -  Notify_Roku_UserIsLoggedIn"
     globalNode = m.global
   
     ' get the Roku Analytics Component Library used for RED
@@ -40,7 +40,7 @@ sub Notify_Roku_UserIsLoggedIn()
   end sub
   
   Function GetFederatedToken(APIKey as String) as String
-      print "DEBUGLOG: to getFederaredToken"
+      print "DEBUGLOG: AuthenticationTask - getFederaredToken"
       url = "https://api2.rhombussystems.com/api/org/generateFederatedSessionToken"
       request = createObject("roUrlTransfer")
       request.setRequest("POST")

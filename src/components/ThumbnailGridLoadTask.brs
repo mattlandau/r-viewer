@@ -18,11 +18,15 @@ sub LoadThumbnailGrid()
     end if
 
     selectedVideoWallIndex = m.global.SelectedVideoWallIndex
-    print "selectedVideoWallIndex: "; selectedVideoWallIndex.ToStr()
+    print "DEBUGLOG: ThumbnailGridLoadTask GLT selectedVideoWallIndex: "; selectedVideoWallIndex.ToStr()
     idealDeviceCount = 0
     actualDeviceCount = 0
-    deviceCount = m.global.VideoWalls[selectedVideoWallIndex].deviceList.count()
-    print "deviceCount: "; deviceCount.ToStr()
+    if (m.global.VideoWalls[selectedVideoWallIndex].deviceList = invalid)
+        deviceCount = 0
+    else 
+        deviceCount = m.global.VideoWalls[selectedVideoWallIndex].deviceList.count()
+    end if
+    print "DEBUGLOG: ThumbnailGridLoadTask GLT deviceCount: "; deviceCount.ToStr()
 
     for i = 0 to deviceCount - 1
         m.content.createChild("ContentNode")

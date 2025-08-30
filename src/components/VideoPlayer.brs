@@ -7,7 +7,7 @@ end sub
 sub showVideoContent()
     print "DEBUGLOG: showVideoContent (VideoComponent.bs)"
     print m.top.content
-    url = m.global.wanURI + "?_ds=h240b240"
+    url = m.global.wanURI + "?_ds=h480b480"
 
     print "DEBUGLOG: showVideoContent, url is: "; url
     m.videoContent = createObject("RoSGNode", "ContentNode")

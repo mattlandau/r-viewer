@@ -119,6 +119,7 @@ end sub
 sub GoResetGetVideoWallsTask()
     print "DEBUGLOG: GoResetGetVideoWallsTask"
     m.GetVideoWallTask.control = "STOP"
+    readAPIKey()
     m.GetVideoWallTask.control = "RUN"
     m.VideoWallList.setFocus(true)
 end sub
@@ -248,12 +249,12 @@ sub UpdateGrid()
         print "!!error in UpdateGrid: video wall invalid"
         return
     end if
-    if (m.global.VideoWalls[m.global.SelectedVideoWallIndex].deviceList = invalid)
-        print "!!error in UpdateGrid: no devices"
-        return
-    end if
+    ' if (m.global.VideoWalls[m.global.SelectedVideoWallIndex].deviceList = invalid)
+    '     print "!!error in UpdateGrid: no devices"
+    '     return
+    ' end if
     devices = m.global.VideoWalls[m.global.SelectedVideoWallIndex].deviceList
-    if (devices.count() > 0)
+    if (devices <> invalid and devices.count() > 0)
         for each device in devices
             print "UpdateGrid device: "; device
         end for
