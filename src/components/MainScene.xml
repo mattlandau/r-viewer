@@ -13,7 +13,7 @@
                     <LayoutGroup id="MyTimestampGroup" layoutDirection="horiz">
                         <Timestamp id="MyTimestamp" />
                     </LayoutGroup>
-                    <MarkupGrid id = "ThumbnailGrid" itemComponentName = "MarkupGridItem" numColumns = "2" numRows = "5" itemSize = "[ 532, 308 ]" itemSpacing = "[ 30, 32 ]" drawFocusFeedback="true" visible = "true" scale = "[ 0.90, 0.90 ]" />
+                    <MarkupGrid id = "ThumbnailGrid" itemComponentName = "MarkupGridItem" numColumns = "2" numRows = "5" itemSize = "[ 732, 424 ]" itemSpacing = "[ 30, 100 ]" drawFocusFeedback="true" visible = "true" scale = "[ 0.90, 0.90 ]" />
                </LayoutGroup>
             </LayoutGroup>
         </LayoutGroup>

@@ -13,7 +13,7 @@
   <script type = "text/brightscript" uri="MarkupGridItem.brs" />
 
   <children >
-    <LayoutGroup layoutDirection="horiz" >
+    <LayoutGroup width = "704" height = "396" translation = "[ 256, 144 ]" >
       <BusySpinner 
         id = "busySpinner"  
         control = "start"
@@ -24,13 +24,13 @@
     <Poster 
       id = "itemPoster" 
       translation = "[ 10, 10 ]" 
-      width = "512" 
-      height = "288" 
-      scaleRotateCenter = "[ 256.0, 144.0 ]" >
+      width = "704" 
+      height = "396" 
+      scaleRotateCenter = "[ 342.0, 198.0 ]" >
     </Poster>
     <Label
           id = "itemLabel"
-          translation = "[ 24, 313 ]"
+          translation = "[ 24, 440 ]"
           scale = "[ 0.75, 0.75 ]">
     </Label>   
     <Label id = "cameraUUID" visible="false" /> 
